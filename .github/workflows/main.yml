@@ -1,0 +1,32 @@
+name: Merge upstream branches
+
+on:
+  schedule:
+    - cron: '*/1 * * * *'  # Executa a cada 1 minuto, todos os dias
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Fetch all history
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'your-name'
+          git config --global user.email 'your-username@users.noreply.github.com'
+
+      - name: Add upstream remote
+        run: git remote add upstream https://github.com/torvalds/linux
+
+      - name: Fetch upstream changes
+        run: git fetch upstream
+
+      - name: Merge upstream changes into master
+        run: |
+          git checkout master
+          git merge --no-edit upstream/master
+          git push origin master
