@@ -26,6 +26,13 @@ jobs:
         run: |
           git fetch upstream
           git fetch --tags upstream
+          git fetch upstream '+refs/heads/*:refs/remotes/upstream/*'  # Fetch all branches from upstream
+
+      - name: Sync all branches with upstream
+        run: |
+          git fetch --all
+          git pull --all
+          git push --all origin
 
       - name: Merge upstream changes into master
         run: |
