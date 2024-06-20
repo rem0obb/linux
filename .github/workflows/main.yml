@@ -1,4 +1,4 @@
-name: Merge upstream branches
+name: Merge upstream branches and fetch tags
 
 on:
   schedule:
@@ -23,7 +23,9 @@ jobs:
         run: git remote add upstream https://github.com/torvalds/linux
 
       - name: Fetch upstream changes
-        run: git fetch upstream
+        run: |
+          git fetch upstream
+          git fetch --tags upstream
 
       - name: Merge upstream changes into master
         run: |
